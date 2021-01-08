@@ -1,0 +1,40 @@
+!define BASE_CLASSES_MEASURED_VALUE
+
+!ifndef CLASSES
+!include ../Templates/Classes.cuml
+!endif
+
+class MeasuredValue {
+    ..Private attributes..
+    - _Value: int OR float
+    - _SE: int >= 0 OR float >= 0
+    ___
+    ..Private methods..
+    - _checkInput(Value): type A -> None
+    ..Special / magic methods..
+    __init__(Value, SE = None):
+        int OR float OR MeasuredValueABC /, int OR float OR None/ -> None
+    __int__(): None -> int
+    __float__(): None -> float
+    __trunc__(): None -> int
+    __floor__(): None -> int
+    __ceil__(): None -> int
+    __round__(NDigits = None): /int OR None/ -> int OR float
+    __abs__(): None -> int OR float
+    __pos__(): None -> MeasuredValue
+    __neg__(): None -> MeasuredValue
+    __add__(Other): int OR float OR MeasuredValueABC -> MeasuredValue
+    __radd__(Other): int OR float OR MeasuredValueABC -> MeasuredValue
+    __iadd__(Other): int OR float OR MeasuredValueABC -> MeasuredValue
+    __sub__(Other): int OR float OR MeasuredValueABC -> MeasuredValue
+    __sub__(Other): int OR float OR MeasuredValueABC -> MeasuredValue
+    __isub__(Other): int OR float OR MeasuredValueABC -> MeasuredValue
+    __mul__(Other): int OR float OR MeasuredValueABC -> MeasuredValue
+    __rmul__(Other): int OR float OR MeasuredValueABC -> MeasuredValue
+    __imul__(Other): int OR float OR MeasuredValueABC -> MeasuredValue
+    __truediv__(Other): int OR float OR MeasuredValueABC -> MeasuredValue
+    __rtruediv__(Other): int OR float OR MeasuredValueABC -> MeasuredValue
+    __itruediv__(Other): int OR float OR MeasuredValueABC -> MeasuredValue
+    __pow__(Other): int OR float -> MeasuredValue
+    __ipow__(Other): int OR float -> MeasuredValue
+}

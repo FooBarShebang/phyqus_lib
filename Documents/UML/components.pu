@@ -1,0 +1,15 @@
+@startuml components
+
+title Components Diagram of the Library phyqus_lib
+
+!ifndef COMPONENTS
+!include ./Templates/Components.cuml
+!endif
+
+library(phyqus_lib) {
+    !ifndef BASE_CLASSES_COMPONENTS
+    !include ./base_classes/components.iuml
+    !endif
+}
+
+@enduml

@@ -1,0 +1,19 @@
+@startuml classes
+
+title Class Diagram of the module phyqus_lib.base_classes
+
+!ifndef CLASSES
+!include ../Templates/Classes.cuml
+!endif
+
+!ifndef BASE_CLASSES_MEASURED_VALUE_ABC
+!include ./MeasuredValueABC.iuml
+!endif
+
+!ifndef BASE_CLASSES_MEASURED_VALUE
+!include ./MeasuredValue.iuml
+!endif
+
+MeasuredValueABC <|-- MeasuredValue
+
+@enduml

@@ -53,8 +53,8 @@ class MeasuredValueABC(abc.ABC):
     hooking. Cannot be instantiated.
 
     Properties:
-        Value: int OR float; the mean value of a measurement
-        SE: int >= 0 OR float >= 0; the measurement uncertainty
+        Value: (read-only) int OR float; the mean value of a measurement
+        SE: (read-only) int >= 0 OR float >= 0; the measurement uncertainty
     
     Version 1.0.0.0
     """
@@ -149,8 +149,8 @@ class MeasuredValue(MeasuredValueABC):
     Sub-classes MeasuredValueABC.
 
     Properties:
-        Value: int OR float; the mean value of a measurement
-        SE: int >= 0 OR float >= 0; the measurement uncertainty
+        Value: (read-only) int OR float; the mean value of a measurement
+        SE: (read-only) int >= 0 OR float >= 0; the measurement uncertainty
     
     Version 1.0.0.0
     """
@@ -298,7 +298,7 @@ class MeasuredValue(MeasuredValueABC):
         function.
 
         Signature:
-            None -> int OR float
+            int OR None -> int OR float
 
         Args:
             NDigits: (optional) int; the desired precision of the rounding,

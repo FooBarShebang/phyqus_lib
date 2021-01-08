@@ -1,0 +1,9 @@
+!define BASE_CLASSES_COMPONENTS
+
+!ifndef COMPONENTS
+!include ../Templates/Components.cuml
+!endif
+
+module(base_classes) {
+    class(MeasuredValue)
+}

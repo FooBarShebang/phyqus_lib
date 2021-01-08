@@ -1,0 +1,16 @@
+!define BASE_CLASSES_MEASURED_VALUE_ABC
+
+!ifndef CLASSES
+!include ../Templates/Classes.cuml
+!endif
+
+class MeasuredValueABC <<PROTOTYPE>>{
+    ..Read-only properties..
+    # Value: int OR float
+    # SE: int >= 0 OR float >= 0
+    ___
+    ..Special methods..
+    __init__(*args, **kwargs): /.../ -> None
+    __str__(): None -> str
+    __repr__(): None -> str
+}
