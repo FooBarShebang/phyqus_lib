@@ -10,9 +10,9 @@ Classes:
     MeasuredValue
 """
 
-__version__= '1.0.0.0'
-__date__ = '06-01-2021'
-__status__ = 'Development'
+__version__= '1.0.0.1'
+__date__ = '13-01-2021'
+__status__ = 'Production'
 
 #imports
 
@@ -142,7 +142,7 @@ class MeasuredValue(MeasuredValueABC):
     
     Also supports the data conversion into int and float (i.e., lossing SE
     information), the abs() and round() standard functions support as well as
-    math.tunc(). math.ceil() and math.floor().
+    math.tunc(), math.ceil() and math.floor().
     
     Note that this data type does not support comparison operations.
     
@@ -152,7 +152,7 @@ class MeasuredValue(MeasuredValueABC):
         Value: (read-only) int OR float; the mean value of a measurement
         SE: (read-only) int >= 0 OR float >= 0; the measurement uncertainty
     
-    Version 1.0.0.0
+    Version 1.0.0.1
     """
 
     #'private' helper methods
@@ -172,13 +172,16 @@ class MeasuredValue(MeasuredValueABC):
         Raises:
             UT_TypeError: the passed argument is not int, float ('is a' check)
                 or instance of MeasuredValueABC sub-class, which is checked as
-                'has a'
+                'has a' AND as 'is a' on its attributes
         
-        Version 1.0.0.0
+        Version 1.0.0.1
         """
         bCond1 = isinstance(Value, (int, float))
         bCond2 = hasattr(Value, 'Value') and hasattr(Value, 'SE')
-        if not (bCond1 or bCond2):
+        bCond3 = bCond2 and (not isinstance(Value.Value, (int, float)))
+        bCond4 = bCond2 and (not isinstance(Value.SE, (int, float)))
+        bCond5 = bCond2 and (Value.SE < 0)
+        if (not (bCond1 or bCond2)) or bCond3 or bCond4 or bCond5:
             raise UT_TypeError(Value, (int, float, MeasuredValueABC),
                                                                 SkipFrames = 2)
 
@@ -211,8 +214,8 @@ class MeasuredValue(MeasuredValueABC):
         
         Raises:
             UT_TypeError: the first argument is not int, float or instance of
-                MeasuredValueABC sub-class, which is checked as 'has a' not
-                'is a', OR the second argument is not int, float or None
+                MeasuredValueABC sub-class, OR the second argument is not int,
+                float or None
             UT_ValueError: the second argument is negative
         
         Version 1.0.0.0
@@ -526,7 +529,7 @@ class MeasuredValue(MeasuredValueABC):
         else:
             Mean = self.Value * Other.Value
             SE = math.sqrt(pow(self.SE * Other.Value, 2)
-                                                + pow(Other.SE * self.SE, 2))
+                                                + pow(Other.SE * self.Value, 2))
         return MeasuredValue(Mean, SE)
     
     def __rmul__(self,
@@ -692,7 +695,7 @@ class MeasuredValue(MeasuredValueABC):
             UT_ValueError: raising negative mean to a fractional, not integer
                 power; raising zero mean to negative power
         
-        Version 1.0.0.0
+        Version 1.0.0.1
         """
         if not isinstance(Other, (int, float)):
             raise UT_TypeError(Other, (int, float), SkipFrames = 1)
@@ -704,11 +707,15 @@ class MeasuredValue(MeasuredValueABC):
             Mean = 1
             SE = 0
         else:
-            Mean = self.Value ** Other
             if self.Value:
+                Mean = self.Value ** Other
                 SE = self.SE * abs(Other * Mean / self.Value)
             else:
-                SE = self.SE ** Other
+                Mean = 0
+                if self.SE:
+                    SE = self.SE ** Other
+                else:
+                    SE = 0
         return MeasuredValue(Mean, SE)
     
     def __ipow__(self, Other: TReal) -> MeasuredValueABC:

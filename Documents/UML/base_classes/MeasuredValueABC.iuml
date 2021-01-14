@@ -10,7 +10,7 @@ class MeasuredValueABC <<PROTOTYPE>>{
     # SE: int >= 0 OR float >= 0
     ___
     ..Special methods..
-    __init__(*args, **kwargs): /.../ -> None
+    abstract(__init__)(*args, **kwargs): /.../ -> None
     __str__(): None -> str
     __repr__(): None -> str
 }
