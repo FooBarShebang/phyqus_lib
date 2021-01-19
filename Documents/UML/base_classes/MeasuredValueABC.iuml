@@ -1,16 +1,16 @@
-!define BASE_CLASSES_MEASURED_VALUE_ABC
+!$BASE_CLASSES_MEASURED_VALUE_ABC = "v2"
 
-!ifndef CLASSES
-!include ../Templates/Classes.cuml
+!if %not(%variable_exists("$CLASSES"))
+    !include ../Templates/Classes2.cuml
 !endif
 
-class MeasuredValueABC <<PROTOTYPE>>{
+$prototype_class(MeasuredValueABC) {
     ..Read-only properties..
     # Value: int OR float
     # SE: int >= 0 OR float >= 0
     ___
     ..Special methods..
-    abstract(__init__)(*args, **kwargs): /.../ -> None
+    $abstract_method("__init__", "*args, **kwargs"): /.../ -> None
     __str__(): None -> str
     __repr__(): None -> str
 }

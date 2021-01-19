@@ -2,13 +2,13 @@
 
 title Components Diagram of the Library phyqus_lib
 
-!ifndef COMPONENTS
-!include ./Templates/Components.cuml
+!if %not(%variable_exists("$COMPONENTS"))
+    !include ./Templates/Components2.cuml
 !endif
 
-library(phyqus_lib) {
-    !ifndef BASE_CLASSES_COMPONENTS
-    !include ./base_classes/components.iuml
+$library(phyqus_lib) {
+    !if $is_not_defined("$BASE_CLASSES_COMPONENTS")
+        !include ./base_classes/components.iuml
     !endif
 }
 
