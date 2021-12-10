@@ -83,7 +83,11 @@ class MeasuredValueABC(abc.ABC):
         
         Version 1.0.0.0
         """
-        return '({} +/- {})'.format(self.Value, self.SE)
+        if self.SE > 0:
+            Result = '({} +/- {})'.format(self.Value, self.SE)
+        else:
+            Result = str(self.Value)
+        return Result
     
     def __repr__(self) -> str:
         """
@@ -685,10 +689,10 @@ class MeasuredValue(MeasuredValueABC):
         operand.
 
         Signature:
-            int OR float -> MeasuredValue
+            int OR float OR MeasuredValueABC-> MeasuredValue
         
         Args:
-            Other: int OR float; the right operand
+            Other: int OR float OR MeasuredValueABC; the right operand
         
         Raises:
             UT_TypeError: the passed argument is not int or float ('is a' check)
@@ -697,25 +701,37 @@ class MeasuredValue(MeasuredValueABC):
         
         Version 1.0.0.1
         """
-        if not isinstance(Other, (int, float)):
+        if not isinstance(Other, (int, float, MeasuredValueABC)):
             raise UT_TypeError(Other, (int, float), SkipFrames = 1)
-        elif (not isinstance(Other, int)) and (self.Value < 0):
-            raise UT_ValueError(self, '>= 0', SkipFrames = 1)
-        elif (Other < 0) and (not self.Value):
-            raise UT_ValueError(self, '!= 0', SkipFrames = 1)
-        elif not Other:
-            Mean = 1
-            SE = 0
+        if isinstance(Other, MeasuredValueABC):
+            if self.Value <= 0:
+                raise UT_ValueError(self, '> 0', SkipFrames = 1)
+            Mean = self.Value ** Other.Value
+            x1 = self.Value
+            x2 = Other.Value
+            z1 = self.SE
+            z2 = Other.SE
+            Temp1 = pow(x2 * z1, 2) * pow(x1, 2*(x2 - 1))
+            Temp2 = pow(z2 * math.log(x1) * pow(x1, x2), 2)
+            SE = math.sqrt(Temp1 + Temp2)
         else:
-            if self.Value:
-                Mean = self.Value ** Other
-                SE = self.SE * abs(Other * Mean / self.Value)
+            if (not isinstance(Other, int)) and (self.Value < 0):
+                raise UT_ValueError(self, '>= 0', SkipFrames = 1)
+            elif (Other < 0) and (not self.Value):
+                raise UT_ValueError(self, '!= 0', SkipFrames = 1)
+            elif not Other:
+                Mean = 1
+                SE = 0
             else:
-                Mean = 0
-                if self.SE:
-                    SE = self.SE ** Other
+                if self.Value:
+                    Mean = self.Value ** Other
+                    SE = self.SE * abs(Other * Mean / self.Value)
                 else:
-                    SE = 0
+                    Mean = 0
+                    if self.SE:
+                        SE = self.SE ** Other
+                    else:
+                        SE = 0
         return MeasuredValue(Mean, SE)
     
     def __ipow__(self, Other: TReal) -> MeasuredValueABC:

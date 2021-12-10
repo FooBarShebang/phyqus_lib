@@ -53,7 +53,11 @@ $$x_2 / (x_1, z_1) = \left(\frac{x_2}{x_1}, \frac{\left| x_2 \right| *z_1}{x_1^2
 
 ### Exponentiation
 
-The exponentiation is defined only the real number as the second operand
+In the general case:
+
+$$(x_1, z_1)^{(x_2, z_2)} = \left( x_1^{x_2}, x_1^{x_2} * \sqrt{\frac{x_2^2 * z_1^2} {x_1^2} + ln^2(x_1) * z_2^2} \right) \, \forall \, x_1 > 0$$
+
+In the case of the real number as the second operand
 
 $$(x_1, z_1)^{x_2} = ({x_1}^{x_2}, \left| x_2 \right| * z_1 * \left| x_1 \right|^{x_2 - 1})$$
 
@@ -64,9 +68,13 @@ This rule is valid with the following limitations:
 
 The special cases are:
 
-$$(0, z_1)^k = (0,{z_1}^k) \, \forall \, k \in \mathbb{R} \, \mathbf{AND} \, k > 0$$
+$$(0, z_1)^k = (0,z_1^k) \, \forall \, k \in \mathbb{R} \, \mathbf{AND} \, k > 0$$
 
 $$(x_1, z_1)^0 = (1,0) \, \forall \, x_1$$
+
+In the case of the real number as the first argument
+
+$$x_2^{(x_1, z_1)} = (x_2^{x_1}, ln(x_2) * x_2^{x_1} * z_1) \, \forall \, x_2 > 0$$
 
 ### Special case - the second operand is the same object
 
@@ -79,6 +87,8 @@ $$(x_1, z_1) - (x_1,z_1) = (0, 0)$$
 $$(x_1, z_1) * (x_1,z_1) \equiv (x_1, z_1)^2 = (x_1^2, 2 * z_1 * \left| x_1 \right|)$$
 
 $$(x_1, z_1) / (x_1,z_1) = (1, 0)$$
+
+$$(x_1, z_1)^{(x_1,z_1)} = (x_1^{x_1}, \left| x_1^{x_1} \right| * (1 + ln(x_1)) * z_1) \, \forall \, x_1 > 0$$
 
 ## Design and Implementation
 
