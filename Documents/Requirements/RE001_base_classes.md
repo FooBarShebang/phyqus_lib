@@ -58,7 +58,7 @@ ___
 
 **Title:** Exponentiation
 
-**Description:** The defined new data type should support the exponentiation with the second operand (only right!) being  a real number. The augment assignment version of the same operation should be supported as well. The calculations should conform the 'normal error propagation model' as well as the standard conventions / limitations on Python *pow*() function.
+**Description:** The defined new data type should support the exponentiation with the second operand (left or right) being a real number or another instance of the same new data type. The augment assignment version of the same operation should be supported as well. The calculations should conform the 'normal error propagation model' as well as the standard conventions / limitations on Python *pow*() function.
 
 **Verification Method:** T
 
@@ -91,10 +91,7 @@ ___
 
 **Title:** Arithemtics - TypeError
 
-**Description:** The arithmetic operations with this new type should result in the **TypeError** (or its sub-class) exception if:
-
-* Addition, subtraction, multiplication and division - the second operand is neither a real number, nor via another measurement with uncertainty object
-* Exponentiation - the second operand is not a real number
+**Description:** The arithmetic operations with this new type should result in the **TypeError** (or its sub-class) exception if the second operand is neither a real number, nor via another measurement with uncertainty object
 
 **Verification Method:** T
 
@@ -108,7 +105,7 @@ ___
 
 * Division - the second operand (divider) is either a real number zero or has the zero 'mean', except for the case than an object is divided by itself
 * Exponentiation:
-  * The 'mean' of the base is zero and the exponent is negative
-  * The 'mean' of the base is negative and the exponent is non-zero, non-integer real number
+  * The 'mean' of the base is zero and the exponent is negative - as int or float, or has negative mean (as with uncertainty instance)
+  * The 'mean' of the base is negative and the exponent is non-zero, non-integer real number or another value with uncertainty
 
 **Verification Method:** T

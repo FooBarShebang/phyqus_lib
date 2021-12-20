@@ -88,7 +88,7 @@ $$(x_1, z_1) * (x_1,z_1) \equiv (x_1, z_1)^2 = (x_1^2, 2 * z_1 * \left| x_1 \rig
 
 $$(x_1, z_1) / (x_1,z_1) = (1, 0)$$
 
-$$(x_1, z_1)^{(x_1,z_1)} = (x_1^{x_1}, \left| x_1^{x_1} \right| * (1 + ln(x_1)) * z_1) \, \forall \, x_1 > 0$$
+$$(x_1, z_1)^{(x_1,z_1)} = (x_1^{x_1}, \left| x_1^{x_1} * (1 + ln(x_1)) \right| * z_1) \, \forall \, x_1 > 0$$
 
 ## Design and Implementation
 

@@ -10,9 +10,9 @@ Classes:
     MeasuredValue
 """
 
-__version__= '1.0.0.1'
-__date__ = '13-01-2021'
-__status__ = 'Production'
+__version__= '1.0.0.2'
+__date__ = '20-12-2021'
+__status__ = 'Development'
 
 #imports
 
@@ -206,10 +206,10 @@ class MeasuredValue(MeasuredValueABC):
                 copied as the mean, the second argument is copied as SE
 
         Signature:
-            int OR float OR MeasuredValueABC /, int OR float OR None/ -> None
+            int OR float OR MeasuredValue /, int OR float OR None/ -> None
         
         Args:
-            Value: int OR float OR MeasuredValueABC; the mean value of the
+            Value: int OR float OR MeasuredValue; the mean value of the
                 measurement with optional uncertainty (if instance of sub-class
                 of MeasuredValueABC is passed)
             SE: (optional) int OR float; the associated measurement uncertainty,
@@ -305,7 +305,7 @@ class MeasuredValue(MeasuredValueABC):
         function.
 
         Signature:
-            int OR None -> int OR float
+            /int OR None/ -> int OR float
 
         Args:
             NDigits: (optional) int; the desired precision of the rounding,
@@ -355,10 +355,10 @@ class MeasuredValue(MeasuredValueABC):
         left operand.
 
         Signature:
-            int OR float OR MeasuredValueABC -> MeasuredValue
+            int OR float OR MeasuredValue -> MeasuredValue
         
         Args:
-            Other: int OR float OR MeasuredValueABC; the right operand
+            Other: int OR float OR MeasuredValue; the right operand
         
         Raises:
             UT_TypeError: the passed argument is not int, float ('is a' check)
@@ -379,22 +379,19 @@ class MeasuredValue(MeasuredValueABC):
             SE = math.sqrt(pow(self.SE, 2) + pow(Other.SE, 2))
         return MeasuredValue(Mean, SE)
     
-    def __radd__(self,
-                    Other: Union[TReal, MeasuredValueABC]) -> MeasuredValueABC:
+    def __radd__(self, Other: TReal) -> MeasuredValueABC:
         """
         Implements the addition operation with the current instance being the
         right operand.
 
         Signature:
-            int OR float OR MeasuredValueABC -> MeasuredValue
+            int OR float -> MeasuredValue
         
         Args:
-            Other: int OR float OR MeasuredValueABC; the left operand
+            Other: int OR float; the left operand
         
         Raises:
             UT_TypeError: the passed argument is not int, float ('is a' check)
-                or instance of MeasuredValueABC sub-class, which is checked as
-                'has a'
         
         Version 1.0.0.0
         """
@@ -407,10 +404,10 @@ class MeasuredValue(MeasuredValueABC):
         Implements the augmented addition assignment to current instance.
 
         Signature:
-            int OR float OR MeasuredValueABC -> MeasuredValue
+            int OR float OR MeasuredValue -> MeasuredValue
         
         Args:
-            Other: int OR float OR MeasuredValueABC; the second operand
+            Other: int OR float OR MeasuredValue; the second operand
         
         Raises:
             UT_TypeError: the passed argument is not int, float ('is a' check)
@@ -433,10 +430,10 @@ class MeasuredValue(MeasuredValueABC):
         left operand.
 
         Signature:
-            int OR float OR MeasuredValueABC -> MeasuredValue
+            int OR float OR MeasuredValue -> MeasuredValue
         
         Args:
-            Other: int OR float OR MeasuredValueABC; the right operand
+            Other: int OR float OR MeasuredValue; the right operand
         
         Raises:
             UT_TypeError: the passed argument is not int, float ('is a' check)
@@ -457,22 +454,19 @@ class MeasuredValue(MeasuredValueABC):
             SE = math.sqrt(pow(self.SE, 2) + pow(Other.SE, 2))
         return MeasuredValue(Mean, SE)
     
-    def __rsub__(self,
-                    Other: Union[TReal, MeasuredValueABC]) -> MeasuredValueABC:
+    def __rsub__(self, Other: TReal) -> MeasuredValueABC:
         """
         Implements the subtraction operation with the current instance being the
         right operand.
 
         Signature:
-            int OR float OR MeasuredValueABC -> MeasuredValue
+            int OR float -> MeasuredValue
         
         Args:
-            Other: int OR float OR MeasuredValueABC; the left operand
+            Other: int OR float; the left operand
         
         Raises:
             UT_TypeError: the passed argument is not int, float ('is a' check)
-                or instance of MeasuredValueABC sub-class, which is checked as
-                'has a'
         
         Version 1.0.0.0
         """
@@ -485,10 +479,10 @@ class MeasuredValue(MeasuredValueABC):
         Implements the augmented subtraction assignment to current instance.
 
         Signature:
-            int OR float OR MeasuredValueABC -> MeasuredValue
+            int OR float OR MeasuredValue -> MeasuredValue
         
         Args:
-            Other: int OR float OR MeasuredValueABC; the second operand
+            Other: int OR float OR MeasuredValue; the second operand
         
         Raises:
             UT_TypeError: the passed argument is not int, float ('is a' check)
@@ -511,10 +505,10 @@ class MeasuredValue(MeasuredValueABC):
         the left operand.
 
         Signature:
-            int OR float OR MeasuredValueABC -> MeasuredValue
+            int OR float OR MeasuredValue -> MeasuredValue
         
         Args:
-            Other: int OR float OR MeasuredValueABC; the right operand
+            Other: int OR float OR MeasuredValue; the right operand
         
         Raises:
             UT_TypeError: the passed argument is not int, float ('is a' check)
@@ -536,23 +530,20 @@ class MeasuredValue(MeasuredValueABC):
                                                 + pow(Other.SE * self.Value, 2))
         return MeasuredValue(Mean, SE)
     
-    def __rmul__(self,
-                    Other: Union[TReal, MeasuredValueABC]) -> MeasuredValueABC:
+    def __rmul__(self, Other: TReal) -> MeasuredValueABC:
         """
         Implements the multiplication operation with the current instance being
         the right operand.
 
         Signature:
-            int OR float OR MeasuredValueABC -> MeasuredValue
+            int OR float -> MeasuredValue
         
         Args:
-            Other: int OR float OR MeasuredValueABC; the left operand
+            Other: int OR float; the left operand
         
         Raises:
             UT_TypeError: the passed argument is not int, float ('is a' check)
-                or instance of MeasuredValueABC sub-class, which is checked as
-                'has a'
-        
+
         Version 1.0.0.0
         """
         self._checkInput(Other)
@@ -564,10 +555,10 @@ class MeasuredValue(MeasuredValueABC):
         Implements the augmented multiplication assignment to current instance.
 
         Signature:
-            int OR float OR MeasuredValueABC -> MeasuredValue
+            int OR float OR MeasuredValue -> MeasuredValue
         
         Args:
-            Other: int OR float OR MeasuredValueABC; the second operand
+            Other: int OR float OR MeasuredValue; the second operand
         
         Raises:
             UT_TypeError: the passed argument is not int, float ('is a' check)
@@ -590,10 +581,10 @@ class MeasuredValue(MeasuredValueABC):
         left operand.
 
         Signature:
-            int OR float OR MeasuredValueABC -> MeasuredValue
+            int OR float OR MeasuredValue -> MeasuredValue
         
         Args:
-            Other: int OR float OR MeasuredValueABC; the right operand
+            Other: int OR float OR MeasuredValue; the right operand
         
         Raises:
             UT_TypeError: the passed argument is not int, float ('is a' check)
@@ -620,41 +611,28 @@ class MeasuredValue(MeasuredValueABC):
                         + pow((Other.SE * self.Value) / (Other.Value**2), 2))
         return MeasuredValue(Mean, SE)
     
-    def __rtruediv__(self,
-                    Other: Union[TReal, MeasuredValueABC]) -> MeasuredValueABC:
+    def __rtruediv__(self, Other: TReal) -> MeasuredValueABC:
         """
         Implements the division operation with the current instance being the
         right operand.
 
         Signature:
-            int OR float OR MeasuredValueABC -> MeasuredValue
+            int OR float -> MeasuredValue
         
         Args:
-            Other: int OR float OR MeasuredValueABC; the left operand
+            Other: int OR float; the left operand
         
         Raises:
             UT_TypeError: the passed argument is not int, float ('is a' check)
-                or instance of MeasuredValueABC sub-class, which is checked as
-                'has a'
             UT_ValueError: the current mean value stored is zero
         
         Version 1.0.0.0
         """
         self._checkInput(Other)
-        if isinstance(Other, (int, float)):
-            if not self.Value:
-                raise UT_ValueError(self, '!= 0', SkipFrames = 1)
-            Mean = Other / self.Value
-            SE = self.SE * abs(Other) / (self.Value**2)
-        elif Other is self:
-            Mean = 1
-            SE = 0
-        else:
-            if not self.Value:
-                raise UT_ValueError(self, '!= 0', SkipFrames = 1)
-            Mean = Other.Value / self.Value
-            SE = math.sqrt(pow(Other.SE / self.Value, 2)
-                        + pow((self.SE * Other.Value) / (self.Value**2), 2))
+        if not self.Value:
+            raise UT_ValueError(self, '!= 0', SkipFrames = 1)
+        Mean = Other / self.Value
+        SE = self.SE * abs(Other) / (self.Value**2)
         return MeasuredValue(Mean, SE)
     
     def __itruediv__(self,
@@ -663,10 +641,10 @@ class MeasuredValue(MeasuredValueABC):
         Implements the augmented division assignment to current instance.
 
         Signature:
-            int OR float OR MeasuredValueABC -> MeasuredValue
+            int OR float OR MeasuredValue -> MeasuredValue
         
         Args:
-            Other: int OR float OR MeasuredValueABC; the second operand
+            Other: int OR float OR MeasuredValue; the second operand
         
         Raises:
             UT_TypeError: the passed argument is not int or float ('is a' check)
@@ -677,6 +655,10 @@ class MeasuredValue(MeasuredValueABC):
         Version 1.0.0.0
         """
         self._checkInput(Other)
+        bCond1 = isinstance(Other, (int, float)) and (not Other)
+        bCond2 = hasattr(Other, 'Value') and (not Other.Value)
+        if bCond1 or bCond2:
+            raise UT_ValueError(Other, '!= 0', SkipFrames = 1)
         Temp = self.__truediv__(Other)
         self._Value = copy.copy(Temp.Value)
         self._SE = copy.copy(Temp.SE)
@@ -689,33 +671,37 @@ class MeasuredValue(MeasuredValueABC):
         operand.
 
         Signature:
-            int OR float OR MeasuredValueABC-> MeasuredValue
+            int OR float OR MeasuredValue-> MeasuredValue
         
         Args:
-            Other: int OR float OR MeasuredValueABC; the right operand
+            Other: int OR float OR MeasuredValue; the right operand
         
         Raises:
             UT_TypeError: the passed argument is not int or float ('is a' check)
+                or instance of MeasuredValueABC sub-class, which is checked as
+                'has a'
             UT_ValueError: raising negative mean to a fractional, not integer
                 power; raising zero mean to negative power
         
         Version 1.0.0.1
         """
-        if not isinstance(Other, (int, float, MeasuredValueABC)):
-            raise UT_TypeError(Other, (int, float), SkipFrames = 1)
+        self._checkInput(Other)
         if isinstance(Other, MeasuredValueABC):
             if self.Value <= 0:
                 raise UT_ValueError(self, '> 0', SkipFrames = 1)
             Mean = self.Value ** Other.Value
             x1 = self.Value
-            x2 = Other.Value
             z1 = self.SE
-            z2 = Other.SE
-            Temp1 = pow(x2 * z1, 2) * pow(x1, 2*(x2 - 1))
-            Temp2 = pow(z2 * math.log(x1) * pow(x1, x2), 2)
-            SE = math.sqrt(Temp1 + Temp2)
+            if Other is self:
+                SE = z1 * abs(Mean * (1 + math.log(x1)))
+            else:
+                x2 = Other.Value
+                z2 = Other.SE
+                Temp1 = pow(x2 * z1, 2) * pow(x1, 2*(x2 - 1))
+                Temp2 = pow(z2 * math.log(x1) * pow(x1, x2), 2)
+                SE = math.sqrt(Temp1 + Temp2)
         else:
-            if (not isinstance(Other, int)) and (self.Value < 0):
+            if isinstance(Other, float) and (self.Value < 0):
                 raise UT_ValueError(self, '>= 0', SkipFrames = 1)
             elif (Other < 0) and (not self.Value):
                 raise UT_ValueError(self, '!= 0', SkipFrames = 1)
@@ -734,30 +720,59 @@ class MeasuredValue(MeasuredValueABC):
                         SE = 0
         return MeasuredValue(Mean, SE)
     
-    def __ipow__(self, Other: TReal) -> MeasuredValueABC:
+    def __rpow__(self, Other: TReal) -> MeasuredValueABC:
         """
-        Implements the augmented power assignment to current instance.
+        Implements the power operation with the current instance being the right
+        operand.
 
         Signature:
             int OR float -> MeasuredValue
         
         Args:
-            Other: int OR float; the second operand
+            Other: int OR float OR MeasuredValue; the right operand
         
         Raises:
             UT_TypeError: the passed argument is not int or float ('is a' check)
+            UT_ValueError: the argument (left operand) is not positive
+        
+        Version 1.0.0.0
+        """
+        self._checkInput(Other)
+        if Other < 0:
+            raise UT_ValueError(Other, '> 0', SkipFrames = 1)
+        Mean = Other ** self.Value
+        SE = abs(Mean * math.log(Other)) * self.SE
+        return MeasuredValue(Mean, SE)
+
+    def __ipow__(self, Other: TReal) -> MeasuredValueABC:
+        """
+        Implements the augmented power assignment to current instance.
+
+        Signature:
+            int OR float OR MeasuredValue-> MeasuredValue
+        
+        Args:
+            Other: int OR float OR MeasuredValue; the right operand
+        
+        Raises:
+            UT_TypeError: the passed argument is not int or float ('is a' check)
+                or instance of MeasuredValueABC sub-class, which is checked as
+                'has a'
             UT_ValueError: raising negative mean to a fractional, not integer
                 power; raising zero mean to negative power
         
         Version 1.0.0.0
         """
-        if not isinstance(Other, (int, float)):
-            raise UT_TypeError(Other, (int, float), SkipFrames = 1)
-        elif (not isinstance(Other, int)) and (self.Value < 0):
-            raise UT_ValueError(self, '>= 0', SkipFrames = 1)
-        elif (Other < 0) and (not self.Value):
-            raise UT_ValueError(self, '!= 0', SkipFrames = 1)
-        Temp = self.__pow__(Other)
+        try:
+            Temp = self.__pow__(Other)
+        except UT_ValueError as err:
+            objError = UT_ValueError(self, 'whatever', SkipFrames = 1)
+            objError.args = (err.args[0], )
+            raise objError from None
+        except UT_TypeError as err1:
+            objError = UT_TypeError(self, int, SkipFrames = 1)
+            objError.args = (err1.args[0], )
+            raise objError from None
         self._Value = copy.copy(Temp.Value)
         self._SE = copy.copy(Temp.SE)
         del Temp
