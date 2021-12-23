@@ -127,8 +127,8 @@ Correctness of calculations - performed separately for each of the test suits fo
 * Augmented assigment: '+=', '-=', '*=', '/=' and '**=' to an instance of the tested class
   * Instantiate the **MeasuredValue** class with the random floating point numbers - both the 'mean' and uncertainty
     * Perform the operation directly (e.g. as 'a += b') and using a functional wrapper (e.g. *operator.iadd*(a, b) from the standard library) with a random integer and a random floating point right operand. Compare the results with the expected 'mean' and uncertainty (acoording to the formulas). **Note** in case of the division the right operand should not be zero; in case of the exponentiation the 'mean' value should also satisfy conditions discussed in the exponentiaion operation definition (see UD001 document).
-    * Except the exponentiation! Perform the same operation directly and via a functional call wrapper using another instance of **MeasuredValue** class and an instance of **HelperClass** as the right operand, with the second operand being instantiated with integer and floating point values. **Note** in case of the division the 'mean' value of the right operand should not be zero.
-    * Except the exponentiation! Check the special case, when the second operand is the same object as the left one.
+    * Perform the same operation directly and via a functional call wrapper using another instance of **MeasuredValue** class and an instance of **HelperClass** as the right operand, with the second operand being instantiated with integer and floating point values. **Note** in case of the division the 'mean' value of the right operand should not be zero.
+    * Check the special case, when the second operand is the same object as the left one.
   * Repeat the process with the random integer values of the 'mean' and uncertainty
   * For division only. Check that the augmented division assignemnt to an instance with a zero 'mean' with the right operand being the same object results in (1, 0) and ValueError is not raised.
 * Instance of the tested class as a right operand of '+', '-', '*', '/' and '**'
@@ -161,10 +161,14 @@ ValueError - the proper type of the second operand, but either the 'mean' or the
   * Instantiate **MeasuredValue** (tested class) with an arbitrary, random value of the uncertainty and zero 'mean' (try both integer 0 and floating point 0.0)
   * Try to raise this instance to an arbitrary (integer or floating point) negative power. Repeat several times with the different powers.
   * Repeat the procedure using the augmented expenentiation assigment instead.
+  * Try to raise an arbitrary negative integer and floating point numbers to any power with uncertainty - try positive and negative 'mean' values.
+  * Repeat the procedure using the augmented expenentiation assigment instead.
+  * Try to raise zero (as integer and floating point) to any power with uncertainty - try positive and negative 'mean' values.
+  * Repeat the procedure using the augmented expenentiation assigment instead.
 
 The test cases are implemented within the module [UT001_base_classes](../../Tests/UT001_base_classes.py), see classes **Test_Add**, **Test_Sub**, **Test_Mul**, **Test_Div** and **Test_Pow**.
 
-**Test result:** PASS / FAIL
+**Test result:** PASS
 
 ## Traceability
 
@@ -173,12 +177,12 @@ For traceability the relation between tests and requirements is summarized in th
 | **Requirement ID** | **Covered in test(s)** | **Verified \[YES/NO\]**) |
 | :----------------- | :--------------------- | :----------------------- |
 | REQ-FUN-100        | TEST-T-100             | YES                      |
-| REQ-FUN-101        | TEST-T-101             | NO                       |
-| REQ-FUN-102        | TEST-T-101             | NO                       |
+| REQ-FUN-101        | TEST-T-101             | YES                      |
+| REQ-FUN-102        | TEST-T-101             | YES                      |
 | REQ-AWM-100        | TEST-T-100             | YES                      |
 | REQ-AWM-101        | TEST-T-100             | YES                      |
-| REQ-AWM-102        | TEST-T-101             | NO                       |
-| REQ-AWM-103        | TEST-T-101             | NO                       |
+| REQ-AWM-102        | TEST-T-101             | YES                      |
+| REQ-AWM-103        | TEST-T-101             | YES                      |
 
 | **Software ready for production \[YES/NO\]** | **Rationale**        |
 | :------------------------------------------: | :------------------- |

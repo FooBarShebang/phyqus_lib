@@ -128,10 +128,7 @@ except (TypeError, ValueError) as err:
     print(err.Traceback.Info)
 ```
 
-This class also implements the arithmetic operations:
-
-* addition, subtraction, multiplication and division - with an instance of this class being either left or right operand, and the second operand being either a real number ('IS A' check) or an instance of an API compatible class (measurement with uncertainty, 'HAS A' check + 'IS A' check on its attributes)
-* exponentiation (power) - with an instance of this class being the left operand, and the right operand being a real number ('IS A check)
+This class also implements the arithmetic operations: addition, subtraction, multiplication, division and exponentiation - with an instance of this class being either left or right operand, and the second operand being either a real number ('IS A' check) or an instance of an API compatible class (measurement with uncertainty, 'HAS A' check + 'IS A' check on its attributes)
 
 The result of such an operation is always an instance of the **MeasuredValue** class. The augmented assigment versions of these operations are also supported.
 
@@ -144,6 +141,7 @@ Additional limitations are applied for the special cases:
     * exception from this case is when a measurement with zero 'mean' is divided by itself, in which case the operation is valid and the result is (1, 0)
   * a measurement with zero 'mean' is raised to a negative power - **UT_ValueError** is raised instead of **ZeroDivisionError**
 * A measurement with a negative 'mean' is raised into a non-integer power - **UT_ValueError** is raised
+* A non-positive (zero or negative) is raised to any power with uncertainty
 
 ## API Reference
 
@@ -151,7 +149,7 @@ Additional limitations are applied for the special cases:
 
 Implements the data type to store a measurement mean value and the bound uncertainty as well as the basic arithmetic operations, including the augmented assignments.
 
-The addition, subtraction, multiplication and division are supported for both operands having uncertainty as well as only one operand having it and the second operand being a plain real number. The power operation is implemented only for the real number exponent, whereas the base being an instance of this class.
+The addition, subtraction, multiplication, division and exponentiation are supported for both operands having uncertainty as well as only one operand having it and the second operand being a plain real number.
 
 Avoids **ZeroDivisionError** by checking operands and raising **UT_ValueError** instead.
 

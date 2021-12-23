@@ -10,12 +10,12 @@
 | **Requirement ID** | **Covered in test(s)** | **Verified \[YES/NO\]**) |
 | :----------------- | :--------------------- | :----------------------- |
 | REQ-FUN-100        | TEST-T-100             | YES                      |
-| REQ-FUN-101        | TEST-T-101             | NO                       |
-| REQ-FUN-102        | TEST-T-101             | NO                       |
+| REQ-FUN-101        | TEST-T-101             | YES                      |
+| REQ-FUN-102        | TEST-T-101             | YES                      |
 | REQ-AWM-100        | TEST-T-100             | YES                      |
 | REQ-AWM-101        | TEST-T-100             | YES                      |
-| REQ-AWM-102        | TEST-T-101             | NO                       |
-| REQ-AWM-103        | TEST-T-101             | NO                       |
+| REQ-AWM-102        | TEST-T-101             | YES                      |
+| REQ-AWM-103        | TEST-T-101             | YES                      |
 
 | **Software ready for production \[YES/NO\]** | **Rationale**                 |
 | :------------------------------------------: | :---------------------------- |

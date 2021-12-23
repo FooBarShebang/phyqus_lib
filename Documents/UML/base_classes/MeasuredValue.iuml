@@ -23,18 +23,19 @@ class MeasuredValue {
     __abs__(): None -> int OR float
     __pos__(): None -> MeasuredValue
     __neg__(): None -> MeasuredValue
-    __add__(Other): int OR float OR MeasuredValueABC -> MeasuredValue
-    __radd__(Other): int OR float OR MeasuredValueABC -> MeasuredValue
-    __iadd__(Other): int OR float OR MeasuredValueABC -> MeasuredValue
-    __sub__(Other): int OR float OR MeasuredValueABC -> MeasuredValue
-    __sub__(Other): int OR float OR MeasuredValueABC -> MeasuredValue
-    __isub__(Other): int OR float OR MeasuredValueABC -> MeasuredValue
-    __mul__(Other): int OR float OR MeasuredValueABC -> MeasuredValue
-    __rmul__(Other): int OR float OR MeasuredValueABC -> MeasuredValue
-    __imul__(Other): int OR float OR MeasuredValueABC -> MeasuredValue
-    __truediv__(Other): int OR float OR MeasuredValueABC -> MeasuredValue
-    __rtruediv__(Other): int OR float OR MeasuredValueABC -> MeasuredValue
-    __itruediv__(Other): int OR float OR MeasuredValueABC -> MeasuredValue
-    __pow__(Other): int OR float -> MeasuredValue
-    __ipow__(Other): int OR float -> MeasuredValue
+    __add__(Other): int OR float OR MeasuredValue -> MeasuredValue
+    __radd__(Other): int OR float -> MeasuredValue
+    __iadd__(Other): int OR float OR MeasuredValue -> MeasuredValue
+    __sub__(Other): int OR float OR MeasuredValue -> MeasuredValue
+    __rsub__(Other): int OR float -> MeasuredValue
+    __isub__(Other): int OR float OR MeasuredValue -> MeasuredValue
+    __mul__(Other): int OR float OR MeasuredValue -> MeasuredValue
+    __rmul__(Other): int OR float -> MeasuredValue
+    __imul__(Other): int OR float OR MeasuredValue -> MeasuredValue
+    __truediv__(Other): int OR float OR MeasuredValue -> MeasuredValue
+    __rtruediv__(Other): int OR float -> MeasuredValue
+    __itruediv__(Other): int OR float OR MeasuredValue -> MeasuredValue
+    __pow__(Other): int OR float OR MeasuredValue -> MeasuredValue
+    __rpow__(Other): int OR float -> MeasuredValue
+    __ipow__(Other): int OR float OR MeasuredValue -> MeasuredValue
 }

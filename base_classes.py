@@ -135,11 +135,9 @@ class MeasuredValue(MeasuredValueABC):
     uncertainty as well as the basic arithmetic operations, including the
     augmented assignments.
     
-    The addition, subtraction, multiplication and division are supported for
-    both operands having uncertainty as well as only one operand having it and
-    the second operand being a plain real number. The power operation is
-    implemented only for the real number exponent, whereas the base being an
-    instance of this class.
+    The addition, subtraction, multiplication, division and exponentiation are
+    supported for both operands having uncertainty as well as only one operand
+    having it and the second operand being a plain real number.
 
     Avoids ZeroDivisionError by checking operands and raising UT_ValueError
     instead.
@@ -156,7 +154,7 @@ class MeasuredValue(MeasuredValueABC):
         Value: (read-only) int OR float; the mean value of a measurement
         SE: (read-only) int >= 0 OR float >= 0; the measurement uncertainty
     
-    Version 1.0.0.1
+    Version 1.0.1.0
     """
 
     #'private' helper methods
@@ -657,7 +655,8 @@ class MeasuredValue(MeasuredValueABC):
         self._checkInput(Other)
         bCond1 = isinstance(Other, (int, float)) and (not Other)
         bCond2 = hasattr(Other, 'Value') and (not Other.Value)
-        if bCond1 or bCond2:
+        bCond3 = not (Other is self)
+        if bCond1 or (bCond2 and bCond3):
             raise UT_ValueError(Other, '!= 0', SkipFrames = 1)
         Temp = self.__truediv__(Other)
         self._Value = copy.copy(Temp.Value)
@@ -681,7 +680,8 @@ class MeasuredValue(MeasuredValueABC):
                 or instance of MeasuredValueABC sub-class, which is checked as
                 'has a'
             UT_ValueError: raising negative mean to a fractional, not integer
-                power; raising zero mean to negative power
+                power or to value with uncertainty; raising zero mean to
+                negative power or to value with uncertainty
         
         Version 1.0.0.1
         """
@@ -701,7 +701,7 @@ class MeasuredValue(MeasuredValueABC):
                 Temp2 = pow(z2 * math.log(x1) * pow(x1, x2), 2)
                 SE = math.sqrt(Temp1 + Temp2)
         else:
-            if isinstance(Other, float) and (self.Value < 0):
+            if isinstance(Other, float) and (self.Value < 0) and (Other != 0):
                 raise UT_ValueError(self, '>= 0', SkipFrames = 1)
             elif (Other < 0) and (not self.Value):
                 raise UT_ValueError(self, '!= 0', SkipFrames = 1)
@@ -738,7 +738,7 @@ class MeasuredValue(MeasuredValueABC):
         Version 1.0.0.0
         """
         self._checkInput(Other)
-        if Other < 0:
+        if Other <= 0:
             raise UT_ValueError(Other, '> 0', SkipFrames = 1)
         Mean = Other ** self.Value
         SE = abs(Mean * math.log(Other)) * self.SE
@@ -759,7 +759,8 @@ class MeasuredValue(MeasuredValueABC):
                 or instance of MeasuredValueABC sub-class, which is checked as
                 'has a'
             UT_ValueError: raising negative mean to a fractional, not integer
-                power; raising zero mean to negative power
+                power or to value with uncertainty; raising zero mean to
+                negative power or to value with uncertainty
         
         Version 1.0.0.0
         """

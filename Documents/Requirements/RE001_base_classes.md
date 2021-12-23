@@ -107,5 +107,6 @@ ___
 * Exponentiation:
   * The 'mean' of the base is zero and the exponent is negative - as int or float, or has negative mean (as with uncertainty instance)
   * The 'mean' of the base is negative and the exponent is non-zero, non-integer real number or another value with uncertainty
+  * The base is int or float, which is zero or negative, and the exponent is the value with uncertainty
 
 **Verification Method:** T

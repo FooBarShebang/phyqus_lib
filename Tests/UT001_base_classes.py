@@ -5,8 +5,8 @@ Module phyqus_lib.Tests.UT001_base_classes
 Set of unit tests on the module phyqus_lib.base_classes.
 """
 
-__version__= '1.0.0.0'
-__date__ = '14-01-2021'
+__version__= '1.1.0.0'
+__date__ = '23-12-2021'
 __status__ = 'Testing'
 
 #imports
@@ -154,7 +154,7 @@ class Test_Init(unittest.TestCase):
 class Test_Add(unittest.TestCase):
     """
     Test cases for the class phyqus_lib.base_classes.MeasuredValue. Checks the
-    implementation of the __add__(), __radd__() and __ipow__() methods.
+    implementation of the __add__(), __radd__() and __iadd__() methods.
     
     Implements tests: TEST-T-101.
     Covers the requirements REQ-FUN-102, REQ-AWM-102 and REQ-AWM-103.
@@ -1457,7 +1457,6 @@ class Test_Pow(Test_Add):
         """
         cls.Operation = staticmethod(operator.pow)
         cls.AugOperation = staticmethod(operator.ipow)
-        cls.CheckReverse = False
     
     def test_normal(self):
         """
@@ -1537,26 +1536,245 @@ class Test_Pow(Test_Add):
             del gTest
             del gTest2
             del Temp
+        #both base and exponent are with uncertainty
+        for _ in range(1000):
+            #float base
+            Value1 = random.uniform(0.1, 5)
+            SE1 = random.random()
+            #+positive float exp
+            Value2 = random.uniform(0.1, 5)
+            SE2 = random.random()
+            Value = pow(Value1, Value2)
+            Temp1 = pow(Value2 * SE1, 2) * pow(Value1, 2*(Value2 - 1))
+            Temp2 = pow(SE2 * math.log(Value1) * pow(Value1, Value2), 2)
+            SE = math.sqrt(Temp1 + Temp2)
+            TempBase = MeasuredValue(Value1, SE1)
+            TempExp = MeasuredValue(Value2, SE2)
+            gTest = TempBase ** TempExp
+            gTest2 = self.Operation(TempBase, TempExp)
+            self.assertIsInstance(gTest, MeasuredValue)
+            self.assertAlmostEqual(gTest.Value, Value, places = self.Precision)
+            self.assertAlmostEqual(gTest.SE, SE, places = self.Precision)
+            self.assertIsInstance(gTest2, MeasuredValue)
+            self.assertAlmostEqual(gTest2.Value, Value, places = self.Precision)
+            self.assertAlmostEqual(gTest2.SE, SE, places = self.Precision)
+            del gTest
+            del gTest2
+            del TempBase
+            del TempExp
+            #+negative float exp
+            Value2 = -Value2
+            Value = pow(Value1, Value2)
+            Temp1 = pow(Value2 * SE1, 2) * pow(Value1, 2*(Value2 - 1))
+            Temp2 = pow(SE2 * math.log(Value1) * pow(Value1, Value2), 2)
+            SE = math.sqrt(Temp1 + Temp2)
+            TempBase = MeasuredValue(Value1, SE1)
+            TempExp = MeasuredValue(Value2, SE2)
+            gTest = TempBase ** TempExp
+            gTest2 = self.Operation(TempBase, TempExp)
+            self.assertIsInstance(gTest, MeasuredValue)
+            self.assertAlmostEqual(gTest.Value, Value, places = self.Precision)
+            self.assertAlmostEqual(gTest.SE, SE, places = self.Precision)
+            self.assertIsInstance(gTest2, MeasuredValue)
+            self.assertAlmostEqual(gTest2.Value, Value, places = self.Precision)
+            self.assertAlmostEqual(gTest2.SE, SE, places = self.Precision)
+            del gTest
+            del gTest2
+            del TempBase
+            del TempExp
+            #+positive int exp
+            Value2 = 1 + int(abs(Value2))
+            Value = pow(Value1, Value2)
+            Temp1 = pow(Value2 * SE1, 2) * pow(Value1, 2*(Value2 - 1))
+            Temp2 = pow(SE2 * math.log(Value1) * pow(Value1, Value2), 2)
+            SE = math.sqrt(Temp1 + Temp2)
+            TempBase = MeasuredValue(Value1, SE1)
+            TempExp = MeasuredValue(Value2, SE2)
+            gTest = TempBase ** TempExp
+            gTest2 = self.Operation(TempBase, TempExp)
+            self.assertIsInstance(gTest, MeasuredValue)
+            self.assertAlmostEqual(gTest.Value, Value, places = self.Precision)
+            self.assertAlmostEqual(gTest.SE, SE, places = self.Precision)
+            self.assertIsInstance(gTest2, MeasuredValue)
+            self.assertAlmostEqual(gTest2.Value, Value, places = self.Precision)
+            self.assertAlmostEqual(gTest2.SE, SE, places = self.Precision)
+            del gTest
+            del gTest2
+            del TempBase
+            del TempExp
+            #+negative int exp
+            Value2 = -Value2
+            Value = pow(Value1, Value2)
+            Temp1 = pow(Value2 * SE1, 2) * pow(Value1, 2*(Value2 - 1))
+            Temp2 = pow(SE2 * math.log(Value1) * pow(Value1, Value2), 2)
+            SE = math.sqrt(Temp1 + Temp2)
+            TempBase = MeasuredValue(Value1, SE1)
+            TempExp = MeasuredValue(Value2, SE2)
+            gTest = TempBase ** TempExp
+            gTest2 = self.Operation(TempBase, TempExp)
+            self.assertIsInstance(gTest, MeasuredValue)
+            self.assertAlmostEqual(gTest.Value, Value, places = self.Precision)
+            self.assertAlmostEqual(gTest.SE, SE, places = self.Precision)
+            self.assertIsInstance(gTest2, MeasuredValue)
+            self.assertAlmostEqual(gTest2.Value, Value, places = self.Precision)
+            self.assertAlmostEqual(gTest2.SE, SE, places = self.Precision)
+            del gTest
+            del gTest2
+            del TempBase
+            del TempExp
+            #int base
+            Value1 = int(random.uniform(0.1, 5) + 1)
+            SE1 = random.random()
+            #+positive float exp
+            Value2 = random.uniform(0.1, 5)
+            SE2 = random.random()
+            Value = pow(Value1, Value2)
+            Temp1 = pow(Value2 * SE1, 2) * pow(Value1, 2*(Value2 - 1))
+            Temp2 = pow(SE2 * math.log(Value1) * pow(Value1, Value2), 2)
+            SE = math.sqrt(Temp1 + Temp2)
+            TempBase = MeasuredValue(Value1, SE1)
+            TempExp = MeasuredValue(Value2, SE2)
+            gTest = TempBase ** TempExp
+            gTest2 = self.Operation(TempBase, TempExp)
+            self.assertIsInstance(gTest, MeasuredValue)
+            self.assertAlmostEqual(gTest.Value, Value, places = self.Precision)
+            self.assertAlmostEqual(gTest.SE, SE, places = self.Precision)
+            self.assertIsInstance(gTest2, MeasuredValue)
+            self.assertAlmostEqual(gTest2.Value, Value, places = self.Precision)
+            self.assertAlmostEqual(gTest2.SE, SE, places = self.Precision)
+            del gTest
+            del gTest2
+            del TempBase
+            del TempExp
+            #+negative float exp
+            Value2 = -Value2
+            Value = pow(Value1, Value2)
+            Temp1 = pow(Value2 * SE1, 2) * pow(Value1, 2*(Value2 - 1))
+            Temp2 = pow(SE2 * math.log(Value1) * pow(Value1, Value2), 2)
+            SE = math.sqrt(Temp1 + Temp2)
+            TempBase = MeasuredValue(Value1, SE1)
+            TempExp = MeasuredValue(Value2, SE2)
+            gTest = TempBase ** TempExp
+            gTest2 = self.Operation(TempBase, TempExp)
+            self.assertIsInstance(gTest, MeasuredValue)
+            self.assertAlmostEqual(gTest.Value, Value, places = self.Precision)
+            self.assertAlmostEqual(gTest.SE, SE, places = self.Precision)
+            self.assertIsInstance(gTest2, MeasuredValue)
+            self.assertAlmostEqual(gTest2.Value, Value, places = self.Precision)
+            self.assertAlmostEqual(gTest2.SE, SE, places = self.Precision)
+            del gTest
+            del gTest2
+            del TempBase
+            del TempExp
+            #+positive int exp
+            Value2 = 1 + int(abs(Value2))
+            Value = pow(Value1, Value2)
+            Temp1 = pow(Value2 * SE1, 2) * pow(Value1, 2*(Value2 - 1))
+            Temp2 = pow(SE2 * math.log(Value1) * pow(Value1, Value2), 2)
+            SE = math.sqrt(Temp1 + Temp2)
+            TempBase = MeasuredValue(Value1, SE1)
+            TempExp = MeasuredValue(Value2, SE2)
+            gTest = TempBase ** TempExp
+            gTest2 = self.Operation(TempBase, TempExp)
+            self.assertIsInstance(gTest, MeasuredValue)
+            self.assertAlmostEqual(gTest.Value, Value, places = self.Precision)
+            self.assertAlmostEqual(gTest.SE, SE, places = self.Precision)
+            self.assertIsInstance(gTest2, MeasuredValue)
+            self.assertAlmostEqual(gTest2.Value, Value, places = self.Precision)
+            self.assertAlmostEqual(gTest2.SE, SE, places = self.Precision)
+            del gTest
+            del gTest2
+            del TempBase
+            del TempExp
+            #+negative int exp
+            Value2 = -Value2
+            Value = pow(Value1, Value2)
+            Temp1 = pow(Value2 * SE1, 2) * pow(Value1, 2*(Value2 - 1))
+            Temp2 = pow(SE2 * math.log(Value1) * pow(Value1, Value2), 2)
+            SE = math.sqrt(Temp1 + Temp2)
+            TempBase = MeasuredValue(Value1, SE1)
+            TempExp = MeasuredValue(Value2, SE2)
+            gTest = TempBase ** TempExp
+            gTest2 = self.Operation(TempBase, TempExp)
+            self.assertIsInstance(gTest, MeasuredValue)
+            self.assertAlmostEqual(gTest.Value, Value, places = self.Precision)
+            self.assertAlmostEqual(gTest.SE, SE, places = self.Precision)
+            self.assertIsInstance(gTest2, MeasuredValue)
+            self.assertAlmostEqual(gTest2.Value, Value, places = self.Precision)
+            self.assertAlmostEqual(gTest2.SE, SE, places = self.Precision)
+            del gTest
+            del gTest2
+            del TempBase
+            del TempExp
         #special cases
+        for _ in range(100): #base and exponent are the same object!
+            #+float
+            SE1 = random.random()
+            Value1 = random.uniform(0.1, 5)
+            Value = pow(Value1, Value1)
+            SE = Value * SE1 * abs(1 + math.log(Value1))
+            Temp = MeasuredValue(Value1, SE1)
+            gTest = Temp ** Temp
+            gTest2 = self.Operation(Temp, Temp)
+            self.assertIsInstance(gTest, MeasuredValue)
+            self.assertAlmostEqual(gTest.Value, Value, places = self.Precision)
+            self.assertAlmostEqual(gTest.SE, SE, places = self.Precision)
+            self.assertIsInstance(gTest2, MeasuredValue)
+            self.assertAlmostEqual(gTest2.Value, Value, places = self.Precision)
+            self.assertAlmostEqual(gTest2.SE, SE, places = self.Precision)
+            del gTest
+            del gTest2
+            del Temp
+            #+int
+            Value1 = 1 + int(Value1)
+            Value = pow(Value1, Value1)
+            SE = Value * SE1 * abs(1 + math.log(Value1))
+            Temp = MeasuredValue(Value1, SE1)
+            gTest = Temp ** Temp
+            gTest2 = self.Operation(Temp, Temp)
+            self.assertIsInstance(gTest, MeasuredValue)
+            self.assertAlmostEqual(gTest.Value, Value, places = self.Precision)
+            self.assertAlmostEqual(gTest.SE, SE, places = self.Precision)
+            self.assertIsInstance(gTest2, MeasuredValue)
+            self.assertAlmostEqual(gTest2.Value, Value, places = self.Precision)
+            self.assertAlmostEqual(gTest2.SE, SE, places = self.Precision)
+            del gTest
+            del gTest2
+            del Temp
         for _ in range(10):
             Value1 = random.uniform(-10, 10)
+            if not Value1:
+                continue
             SE1 = random.random()
             Value2 = random.uniform(0.1, 3.0)
             Temp = MeasuredValue(Value1, SE1)
-            gTest = Temp ** 0
+            gTest = Temp ** 0 #raising to (x!=0,y) measured into zero power!
             gTest2 = self.Operation(Temp, 0)
+            gTest3 = Temp ** 0.0
+            gTest4 = self.Operation(Temp, 0.0)
             self.assertIsInstance(gTest, MeasuredValue)
             self.assertEqual(gTest.Value, 1)
             self.assertEqual(gTest.SE, 0)
             self.assertIsInstance(gTest2, MeasuredValue)
             self.assertEqual(gTest2.Value, 1)
             self.assertEqual(gTest2.SE, 0)
+            self.assertIsInstance(gTest3, MeasuredValue)
+            self.assertEqual(gTest3.Value, 1)
+            self.assertEqual(gTest3.SE, 0)
+            self.assertIsInstance(gTest4, MeasuredValue)
+            self.assertEqual(gTest4.Value, 1)
+            self.assertEqual(gTest4.SE, 0)
             del gTest
             del gTest2
+            del gTest3
+            del gTest4
             del Temp
             Temp = MeasuredValue(0, SE1)
-            gTest = Temp ** Value2
+            gTest = Temp ** Value2 #raising (0, y) to a positive power
             gTest2 = self.Operation(Temp, Value2)
+            Value3 = int(1 + Value2)
+            gTest3 = Temp**Value3
+            gTest4 = self.Operation(Temp, Value3)
             self.assertIsInstance(gTest, MeasuredValue)
             self.assertEqual(gTest.Value, 0)
             self.assertAlmostEqual(gTest.SE, pow(SE1, Value2),
@@ -1565,9 +1783,41 @@ class Test_Pow(Test_Add):
             self.assertEqual(gTest2.Value, 0)
             self.assertAlmostEqual(gTest2.SE, pow(SE1, Value2),
                                                     places = self.Precision)
+            self.assertIsInstance(gTest3, MeasuredValue)
+            self.assertEqual(gTest3.Value, 0)
+            self.assertAlmostEqual(gTest3.SE, pow(SE1, Value3),
+                                                    places = self.Precision)
+            self.assertIsInstance(gTest4, MeasuredValue)
+            self.assertEqual(gTest4.Value, 0)
+            self.assertAlmostEqual(gTest4.SE, pow(SE1, Value3),
+                                                    places = self.Precision)
             del gTest
             del gTest2
+            del gTest3
+            del gTest4
             del Temp
+        Temp = MeasuredValue(0, SE1)
+        gTest = Temp ** 0 #raising to (0,y) measured into zero power!
+        gTest2 = self.Operation(Temp, 0)
+        gTest3 = Temp ** 0.0
+        gTest4 = self.Operation(Temp, 0.0)
+        self.assertIsInstance(gTest, MeasuredValue)
+        self.assertEqual(gTest.Value, 1)
+        self.assertEqual(gTest.SE, 0)
+        self.assertIsInstance(gTest2, MeasuredValue)
+        self.assertEqual(gTest2.Value, 1)
+        self.assertEqual(gTest2.SE, 0)
+        self.assertIsInstance(gTest3, MeasuredValue)
+        self.assertEqual(gTest3.Value, 1)
+        self.assertEqual(gTest3.SE, 0)
+        self.assertIsInstance(gTest4, MeasuredValue)
+        self.assertEqual(gTest4.Value, 1)
+        self.assertEqual(gTest4.SE, 0)
+        del gTest
+        del gTest2
+        del gTest3
+        del gTest4
+        del Temp
     
     def test_augmented(self):
         """
@@ -1679,7 +1929,6 @@ class Test_Pow(Test_Add):
                                                     places = self.Precision)
             del Temp
     
-    @unittest.skip('Reserved for future extention')
     def test_reversed(self):
         """
         Checks that the __rpow__() operation works as expected.
@@ -1688,44 +1937,199 @@ class Test_Pow(Test_Add):
 
         REQ-FUN-102
         """
-        pass
+        for _ in range(1000):
+            Value1 = random.randrange(1, 4) + random.random()
+            SE2 = random.random()
+            Value2 = random.randrange(1, 4) + random.random()
+            Value = pow(Value1, Value2)
+            SE = abs(Value * math.log(Value1)) * SE2
+            Temp = MeasuredValue(Value2, SE2)
+            gTest = Value1 ** Temp
+            gTest2 = self.Operation(Value1, Temp)
+            self.assertIsInstance(gTest, MeasuredValue)
+            self.assertAlmostEqual(gTest.Value, Value, places = self.Precision)
+            self.assertAlmostEqual(gTest.SE, SE, places = self.Precision)
+            self.assertIsInstance(gTest2, MeasuredValue)
+            self.assertAlmostEqual(gTest2.Value, Value, places = self.Precision)
+            self.assertAlmostEqual(gTest2.SE, SE, places = self.Precision)
+            del gTest
+            del gTest2
+            del Temp
+            Value2 = - Value2
+            Value = pow(Value1, Value2)
+            SE = abs(Value * math.log(Value1)) * SE2
+            Temp = MeasuredValue(Value2, SE2)
+            gTest = Value1 ** Temp
+            gTest2 = self.Operation(Value1, Temp)
+            self.assertIsInstance(gTest, MeasuredValue)
+            self.assertAlmostEqual(gTest.Value, Value, places = self.Precision)
+            self.assertAlmostEqual(gTest.SE, SE, places = self.Precision)
+            self.assertIsInstance(gTest2, MeasuredValue)
+            self.assertAlmostEqual(gTest2.Value, Value, places = self.Precision)
+            self.assertAlmostEqual(gTest2.SE, SE, places = self.Precision)
+            del gTest
+            del gTest2
+            del Temp
+            Value2 = int(Value2)
+            Value = pow(Value1, Value2)
+            SE = abs(Value * math.log(Value1)) * SE2
+            Temp = MeasuredValue(Value2, SE2)
+            gTest = Value1 ** Temp
+            gTest2 = self.Operation(Value1, Temp)
+            self.assertIsInstance(gTest, MeasuredValue)
+            self.assertAlmostEqual(gTest.Value, Value, places = self.Precision)
+            self.assertAlmostEqual(gTest.SE, SE, places = self.Precision)
+            self.assertIsInstance(gTest2, MeasuredValue)
+            self.assertAlmostEqual(gTest2.Value, Value, places = self.Precision)
+            self.assertAlmostEqual(gTest2.SE, SE, places = self.Precision)
+            del gTest
+            del gTest2
+            del Temp
+            Value2 = - Value2
+            Value = pow(Value1, Value2)
+            SE = abs(Value * math.log(Value1)) * SE2
+            Temp = MeasuredValue(Value2, SE2)
+            gTest = Value1 ** Temp
+            gTest2 = self.Operation(Value1, Temp)
+            self.assertIsInstance(gTest, MeasuredValue)
+            self.assertAlmostEqual(gTest.Value, Value, places = self.Precision)
+            self.assertAlmostEqual(gTest.SE, SE, places = self.Precision)
+            self.assertIsInstance(gTest2, MeasuredValue)
+            self.assertAlmostEqual(gTest2.Value, Value, places = self.Precision)
+            self.assertAlmostEqual(gTest2.SE, SE, places = self.Precision)
+            del gTest
+            del gTest2
+            del Temp
 
     def test_ValueError(self):
         """
-        Tests that the operation raises ValueError if division by zero is about
-        to occur (i.e zero 'mean' raised to a negative power), or a negative
-        'mean' is raised to a non-integer power.
+        Tests that the operation raises ValueError if exponentiation operator
+        receives inappropriate values of the proper type arguments.
 
         REQ-AWM-103
         """
         for _ in range(1000):
             Power = random.uniform(0.1, 0.9) + random.randrange(0, 3)
-            #division by zero - direct and augmented
+            #division by zero - direct and augmented - zero to negative power
             for Mean in [0, 0.0]:
-                Temp = MeasuredValue(0, 0.1)
+                Temp = MeasuredValue(Mean, 0.1)
                 with self.assertRaises(ValueError):
                     Test = Temp**(- random.randrange(1, 4))
                 with self.assertRaises(ValueError):
+                    Temp **= - random.randrange(1, 4)
+                with self.assertRaises(ValueError):
+                    self.Operation(Temp, - random.randrange(1, 4))
+                with self.assertRaises(ValueError):
+                    self.AugOperation(Temp, - random.randrange(1, 4))
+                with self.assertRaises(ValueError):
+                    Test = Temp**(-Power)
+                with self.assertRaises(ValueError):
+                    Temp **= - Power
+                with self.assertRaises(ValueError):
                     Test = self.Operation(Temp, -Power)
                 with self.assertRaises(ValueError):
-                    Temp **= (- random.randrange(1, 4))
-                with self.assertRaises(ValueError):
                     self.AugOperation(Temp, -Power)
+                with self.assertRaises(ValueError):
+                    Test = Temp**MeasuredValue(-random.randrange(1, 4), 0.1)
+                with self.assertRaises(ValueError):
+                    Test = self.Operation(Temp,
+                                MeasuredValue(-random.randrange(1, 4), 0.1))
+                with self.assertRaises(ValueError):
+                    Temp **= MeasuredValue(-random.randrange(1, 4), 0.1)
+                with self.assertRaises(ValueError):
+                    self.AugOperation(Temp,
+                                MeasuredValue(-random.randrange(1, 4), 0.1))
+                with self.assertRaises(ValueError):
+                    Test = Temp**MeasuredValue(-random.uniform(0.1, 0.9), 0.1)
+                with self.assertRaises(ValueError):
+                    Test = self.Operation(Temp,
+                                MeasuredValue(-random.uniform(0.1, 0.9), 0.1))
+                with self.assertRaises(ValueError):
+                    Temp **= MeasuredValue(-random.uniform(0.1, 0.9), 0.1)
+                with self.assertRaises(ValueError):
+                    self.AugOperation(Temp,
+                                MeasuredValue(-random.uniform(0.1, 0.9), 0.1))
                 del Temp
+            #non-integer power with negative 'mean' of the base
             gMean = random.uniform(-10.0, -1.2)
-            #division non-integer power with negative 'mean'
             for Mean in [gMean, int(gMean)]:
-                Temp = MeasuredValue(gMean, 0.1)
+                Temp = MeasuredValue(Mean, random.random())
                 with self.assertRaises(ValueError):
                     Test = Temp**Power
                 with self.assertRaises(ValueError):
                     Test = Temp**(-Power)
                 with self.assertRaises(ValueError):
+                    self.Operation(Temp, Power)
+                with self.assertRaises(ValueError):
+                    self.Operation(Temp, -Power)
+                with self.assertRaises(ValueError):
                     self.AugOperation(Temp, Power)
                 with self.assertRaises(ValueError):
                     self.AugOperation(Temp, -Power)
+                TempExp = MeasuredValue(random.uniform(0.1, 0.9), 0.1)
+                with self.assertRaises(ValueError):
+                    Test = Temp**TempExp
+                with self.assertRaises(ValueError):
+                    Temp **= TempExp
+                with self.assertRaises(ValueError):
+                    self.Operation(Temp, TempExp)
+                with self.assertRaises(ValueError):
+                    self.AugOperation(Temp, TempExp)
+                del TempExp
+                TempExp = MeasuredValue(-random.uniform(0.1, 0.9), 0.1)
+                with self.assertRaises(ValueError):
+                    Test = Temp**TempExp
+                with self.assertRaises(ValueError):
+                    Temp **= TempExp
+                with self.assertRaises(ValueError):
+                    self.Operation(Temp, TempExp)
+                with self.assertRaises(ValueError):
+                    self.AugOperation(Temp, TempExp)
+                del TempExp
+                TempExp = MeasuredValue(random.randrange(1, 4), 0.1)
+                with self.assertRaises(ValueError):
+                    Test = Temp**TempExp
+                with self.assertRaises(ValueError):
+                    Temp **= TempExp
+                with self.assertRaises(ValueError):
+                    self.Operation(Temp, TempExp)
+                with self.assertRaises(ValueError):
+                    self.AugOperation(Temp, TempExp)
+                del TempExp
+                TempExp = MeasuredValue(-random.randrange(1, 4), 0.1)
+                with self.assertRaises(ValueError):
+                    Test = Temp**TempExp
+                with self.assertRaises(ValueError):
+                    Temp **= TempExp
+                with self.assertRaises(ValueError):
+                    self.Operation(Temp, TempExp)
+                with self.assertRaises(ValueError):
+                    self.AugOperation(Temp, TempExp)
+                del TempExp
                 del Temp
-
+            #non-positive float or int base with uncertainty exponent
+            gMean = random.uniform(1.2, 6.0)
+            for Mean in [gMean, int(gMean), -gMean, -int(gMean)]:
+                Temp = MeasuredValue(Mean, random.random())
+                with self.assertRaises(ValueError):
+                    Test = 0 ** Temp
+                with self.assertRaises(ValueError):
+                    Test = 0.0 ** Temp
+                with self.assertRaises(ValueError):
+                    self.Operation(0 , Temp)
+                with self.assertRaises(ValueError):
+                    self.Operation(0.0 , Temp)
+                Value = -random.randrange(1, 4)
+                with self.assertRaises(ValueError):
+                    Test = Value ** Temp
+                with self.assertRaises(ValueError):
+                    self.Operation(Value , Temp)
+                Value -= random.random()
+                with self.assertRaises(ValueError):
+                    Test = Value ** Temp
+                with self.assertRaises(ValueError):
+                    self.Operation(Value , Temp)
+                del Temp
 
 #+ test suites
 
