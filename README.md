@@ -40,6 +40,7 @@ This library depends on additional Python packages, which should be installed as
 
 ## Documentation
 
+* [Design](./Documents/Design/index.md)
 * [Requirements](./Documents/Requirements/index.md)
 * [Test reports](./Documents/Tests/index.md)
 * [User and API references](./Documents/References/index.md)

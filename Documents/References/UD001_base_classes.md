@@ -1,4 +1,4 @@
-# Module phyqus_lib.base_classes Reference
+# UD001 Module phyqus_lib.base_classes Reference
 
 ## Scope
 
@@ -15,7 +15,7 @@ This module implements a new data type - a measurement with the associated uncer
 
 A measurement with uncertainty is, basically, a tuple of two real numbers $(x_i, z_i)$, where $x_i$ represents the 'mean' of the measured value, and $z_i \geq 0$ is the measurement uncertainty. Thus, any real number $x_i$ can also be represented as a measurement with *zero* uncertainty, i.e. $(x_i, 0)$.
 
-The arithmetic operations with such tuples should consider not only the 'mean' values, but the associated uncertainties as well. The rules described below are valid if the both operands are *independent* measurements, and these rules form the so called *normal error propagation model*.
+The arithmetic operations with such tuples should consider not only the 'mean' values, but the associated uncertainties as well. The rules described below are valid if the both operands are *independent* measurements, and these rules form the so called *normal error propagation model*, see [DE001](../Design/DE001_standard_error_propagation_model.md) document for the derivation of the base formulas.
 
 ### Addition
 

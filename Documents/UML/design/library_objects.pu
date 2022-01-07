@@ -1,0 +1,43 @@
+@startuml library_objects
+
+title Objects Diagram of the Library phyqus_lib
+
+namespace "Standards types" as Python <<built-in>> {
+    object int <<type>>
+
+    object float <<type>>
+}
+
+object "Value with uncertainty" as Measured <<class / type>> {
+    ___
+    Implements standard error propagation
+    model based arithmetics
+}
+
+int <|-- Measured
+float <|-- Measured
+
+namespace math <<Standard Library>> {
+    object "Standard functions" as Func <<function>> {
+    }
+}
+
+object "Custom functions" as Custom <<function>> {
+    ___
+    Implements standard error propagation
+    model
+}
+
+Func <|-- Custom : extends
+
+Measured <- Custom : uses
+
+object "Value with uncertainty and dimension" as Physical <<class / type>> {
+    ___
+    Applies restrictions on the arithmetics.
+    Implements units conversion.
+}
+
+Measured <|-- Physical : extends
+
+@enduml
