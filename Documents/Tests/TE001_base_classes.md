@@ -186,4 +186,4 @@ For traceability the relation between tests and requirements is summarized in th
 
 | **Software ready for production \[YES/NO\]** | **Rationale**        |
 | :------------------------------------------: | :------------------- |
-| NO                                           | Under development    |
+| YES                                          | All tests are passed |
