@@ -10,8 +10,8 @@ Classes:
     MeasuredValue
 """
 
-__version__= '1.0.0.2'
-__date__ = '20-12-2021'
+__version__= '1.0.1.0'
+__date__ = '19-04-2023'
 __status__ = 'Development'
 
 #imports
@@ -178,12 +178,12 @@ class MeasuredValue(MeasuredValueABC):
         
         Version 1.0.0.1
         """
-        bCond1 = isinstance(Value, (int, float))
-        bCond2 = hasattr(Value, 'Value') and hasattr(Value, 'SE')
-        bCond3 = bCond2 and (not isinstance(Value.Value, (int, float)))
-        bCond4 = bCond2 and (not isinstance(Value.SE, (int, float)))
-        bCond5 = bCond2 and (Value.SE < 0)
-        if (not (bCond1 or bCond2)) or bCond3 or bCond4 or bCond5:
+        Cond1 = isinstance(Value, (int, float))
+        Cond2 = hasattr(Value, 'Value') and hasattr(Value, 'SE')
+        Cond3 = Cond2 and (not isinstance(Value.Value, (int, float)))
+        Cond4 = Cond2 and (not isinstance(Value.SE, (int, float)))
+        Cond5 = Cond2 and (Value.SE < 0)
+        if (not (Cond1 or Cond2)) or Cond3 or Cond4 or Cond5:
             raise UT_TypeError(Value, (int, float, MeasuredValueABC),
                                                                 SkipFrames = 2)
 
@@ -296,7 +296,7 @@ class MeasuredValue(MeasuredValueABC):
         """
         return math.ceil(self.Value)
     
-    def __round__(self, NDigits: Optional[int] = None) -> TReal:
+    def __round__(self, Digits: Optional[int] = None) -> TReal:
         """
         Returns the stored mean value of the measurement rounded to int or float
         with the requested number of the digits after comma. Hooks the round()
@@ -306,12 +306,12 @@ class MeasuredValue(MeasuredValueABC):
             /int OR None/ -> int OR float
 
         Args:
-            NDigits: (optional) int; the desired precision of the rounding,
+            Digits: (optional) int; the desired precision of the rounding,
                 defaults to None, in which case the rounding is done to an int
         
         Version 1.0.0.0
         """
-        return round(self.Value, NDigits)
+        return round(self.Value, Digits)
     
     def __abs__(self) -> TReal:
         """
@@ -650,13 +650,13 @@ class MeasuredValue(MeasuredValueABC):
                 'has a'
             UT_ValueError: the passed argument is zero or has zero mean value
         
-        Version 1.0.0.0
+        Version 1.0.0.1
         """
         self._checkInput(Other)
-        bCond1 = isinstance(Other, (int, float)) and (not Other)
-        bCond2 = hasattr(Other, 'Value') and (not Other.Value)
-        bCond3 = not (Other is self)
-        if bCond1 or (bCond2 and bCond3):
+        Cond1 = isinstance(Other, (int, float)) and (not Other)
+        Cond2 = hasattr(Other, 'Value') and (not Other.Value)
+        Cond3 = not (Other is self)
+        if Cond1 or (Cond2 and Cond3):
             raise UT_ValueError(Other, '!= 0', SkipFrames = 1)
         Temp = self.__truediv__(Other)
         self._Value = copy.copy(Temp.Value)
@@ -762,18 +762,18 @@ class MeasuredValue(MeasuredValueABC):
                 power or to value with uncertainty; raising zero mean to
                 negative power or to value with uncertainty
         
-        Version 1.0.0.0
+        Version 1.0.1.0
         """
         try:
             Temp = self.__pow__(Other)
         except UT_ValueError as err:
-            objError = UT_ValueError(self, 'whatever', SkipFrames = 1)
-            objError.args = (err.args[0], )
-            raise objError from None
+            Error = UT_ValueError(self, 'whatever', SkipFrames = 1)
+            Error.setMessage(err.getMessage())
+            raise Error from None
         except UT_TypeError as err1:
-            objError = UT_TypeError(self, int, SkipFrames = 1)
-            objError.args = (err1.args[0], )
-            raise objError from None
+            Error = UT_TypeError(self, int, SkipFrames = 1)
+            Error.setMessage(err1.getMessage())
+            raise Error from None
         self._Value = copy.copy(Temp.Value)
         self._SE = copy.copy(Temp.SE)
         del Temp

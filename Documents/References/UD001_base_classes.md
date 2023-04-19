@@ -157,12 +157,12 @@ Also supports the data conversion into **int** and **float** (i.e., lossing SE i
 
 Note that this data type does not support comparison operations.
 
-__*Class and Instance Data Attributes*__:
+***Class and Instance Data Attributes***:
 
 * *Value*: (read-only property) int OR float; the mean value of a measurement
 * *SE*: (read-only property) int >= 0 OR float >= 0; the measurement uncertainty
 
-__*Initialization*__:
+***Initialization***:
 
 **\_\_init\_\_**(Value, SE = None)
 
