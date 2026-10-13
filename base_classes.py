@@ -10,8 +10,8 @@ Classes:
     MeasuredValue
 """
 
-__version__= '1.0.1.0'
-__date__ = '19-04-2023'
+__version__= '1.0.2.0'
+__date__ = '13-10-2026'
 __status__ = 'Development'
 
 #imports
@@ -154,7 +154,7 @@ class MeasuredValue(MeasuredValueABC):
         Value: (read-only) int OR float; the mean value of a measurement
         SE: (read-only) int >= 0 OR float >= 0; the measurement uncertainty
     
-    Version 1.0.1.0
+    Version 1.0.2.0
     """
 
     #'private' helper methods
@@ -176,14 +176,16 @@ class MeasuredValue(MeasuredValueABC):
                 or instance of MeasuredValueABC sub-class, which is checked as
                 'has a' AND as 'is a' on its attributes
         
-        Version 1.0.0.1
+        Version 1.1.0.0
         """
         Cond1 = isinstance(Value, (int, float))
         Cond2 = hasattr(Value, 'Value') and hasattr(Value, 'SE')
         Cond3 = Cond2 and (not isinstance(Value.Value, (int, float)))
         Cond4 = Cond2 and (not isinstance(Value.SE, (int, float)))
         Cond5 = Cond2 and (Value.SE < 0)
-        if (not (Cond1 or Cond2)) or Cond3 or Cond4 or Cond5:
+        Cond6 = (hasattr(Value, '_SupportsMeasuredValue')
+                                            and Value._SupportsMeasuredValue)
+        if (not (Cond1 or Cond2 or Cond6)) or Cond3 or Cond4 or Cond5:
             raise UT_TypeError(Value, (int, float, MeasuredValueABC),
                                                                 SkipFrames = 2)
 
@@ -363,9 +365,12 @@ class MeasuredValue(MeasuredValueABC):
                 or instance of MeasuredValueABC sub-class, which is checked as
                 'has a'
         
-        Version 1.0.0.0
+        Version 1.1.0.0
         """
         self._checkInput(Other)
+        if (hasattr(Other, '_SupportsMeasuredValue')
+                                            and Other._SupportsMeasuredValue):
+            return Other.__radd__(self)
         if isinstance(Other, (int, float)):
             Mean = self.Value + Other
             SE = self.SE
@@ -438,9 +443,12 @@ class MeasuredValue(MeasuredValueABC):
                 or instance of MeasuredValueABC sub-class, which is checked as
                 'has a'
         
-        Version 1.0.0.0
+        Version 1.1.0.0
         """
         self._checkInput(Other)
+        if (hasattr(Other, '_SupportsMeasuredValue')
+                                            and Other._SupportsMeasuredValue):
+            return Other.__rsub__(self)
         if isinstance(Other, (int, float)):
             Mean = self.Value - Other
             SE = self.SE
@@ -513,9 +521,12 @@ class MeasuredValue(MeasuredValueABC):
                 or instance of MeasuredValueABC sub-class, which is checked as
                 'has a'
         
-        Version 1.0.0.0
+        Version 1.1.0.0
         """
         self._checkInput(Other)
+        if (hasattr(Other, '_SupportsMeasuredValue')
+                                            and Other._SupportsMeasuredValue):
+            return Other.__rmul__(self)
         if isinstance(Other, (int, float)):
             Mean = self.Value * Other
             SE = self.SE * abs(Other)
@@ -590,9 +601,12 @@ class MeasuredValue(MeasuredValueABC):
                 'has a'
             UT_ValueError: the passed argument is zero or has zero mean value
         
-        Version 1.0.0.0
+        Version 1.1.0.0
         """
         self._checkInput(Other)
+        if (hasattr(Other, '_SupportsMeasuredValue')
+                                            and Other._SupportsMeasuredValue):
+            return Other.__rtruediv__(self)
         if isinstance(Other, (int, float)):
             if not Other:
                 raise UT_ValueError(Other, '!= 0', SkipFrames = 1)
