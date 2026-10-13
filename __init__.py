@@ -17,7 +17,7 @@ Modules:
 """
 
 __project__ = 'Real life measurements arithmetics with dimensions and errors'
-__version_info__= (0, 1, 2)
+__version_info__= (0, 2, 0)
 __version_suffix__= '-dev1'
 __version__= ''.join(['.'.join(map(str, __version_info__)), __version_suffix__])
 __date__ = '13-10-2026'
